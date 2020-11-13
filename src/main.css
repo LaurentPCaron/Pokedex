@@ -1,0 +1,71 @@
+@font-face {
+  font-family: pokemon;
+  src: url("./font/pokemon.ttf"); }
+#container {
+  font-family: pokemon;
+  font-size: 1.6rem;
+  background: #DA4D32;
+  width: 550px;
+  height: 500px;
+  margin: 0 auto;
+  padding: 20px 2px 0 2px;
+  color: white; }
+
+#main {
+  background: black;
+  border: solid white;
+  height: 450px; }
+
+.top {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  margin: 8px 4px;
+  border-bottom: solid 5px #DA4D32; }
+
+.top_left {
+  display: grid; }
+
+.top_left__image {
+  background-size: 100%;
+  width: 220px;
+  height: 220px; }
+
+.top_left__number {
+  justify-self: center;
+  font-weight: bold;
+  line-height: 1;
+  height: 45px; }
+
+.top_left__page p {
+  padding-left: 2px;
+  margin: 0;
+  border: solid 5px #DA4D32;
+  border-bottom: none;
+  width: 50px;
+  height: 20px;
+  font-size: 1.2rem;
+  line-height: 1; }
+
+.top_right {
+  padding-top: 40px;
+  padding-left: 35px;
+  display: grid;
+  grid-template-rows: repeat(1fr); }
+
+.description {
+  padding-left: 35px;
+  height: 158px;
+  line-height: 3rem; }
+
+.bottom {
+  height: 28px;
+  border-radius: 25px;
+  display: grid;
+  grid-template-rows: auto;
+  background: black;
+  grid-template-areas: "page cry print back";
+  justify-items: center; }
+  .bottom .column {
+    line-height: 0.8; }
+
+/*# sourceMappingURL=main.css.map */

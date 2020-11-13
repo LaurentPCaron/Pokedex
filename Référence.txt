@@ -1,0 +1,10 @@
+Resources
+
+Font
+https://www.1001freefonts.com/fr/advanced-pixel-7.font
+
+API
+https://pokeapi.co/
+
+	Sprite
+	https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/25.png
