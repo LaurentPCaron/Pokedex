@@ -69,7 +69,12 @@
   background: black;
   grid-template-areas: "page cry print back";
   justify-items: center; }
-  .bottom .column {
+  .bottom .control {
     line-height: 0.8; }
+    .bottom .control i {
+      font-style: normal;
+      visibility: hidden; }
+  .bottom .control:first-of-type i {
+    visibility: visible; }
 
 /*# sourceMappingURL=main.css.map */

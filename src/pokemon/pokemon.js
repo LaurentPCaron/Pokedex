@@ -19,7 +19,7 @@ class Pokemon {
       },
       imageURL:
         'https://tcrf.net/images/archive/1/18/20160605004755%21Pokemon_RGB-MissingNo.png',
-      cry:
+      cryURL:
         'http://soundbible.com/mp3/CD%20Skipping-SoundBible.com-816257683.mp3',
     };
 
@@ -47,7 +47,7 @@ class Pokemon {
         this.pokemon.description = this.fetchDescription(response);
       });
 
-      this.pokemon.cry = this.fetchCry();
+      this.pokemon.cryURL = this.fetchCry();
     }
 
     return this.pokemon;
@@ -124,6 +124,6 @@ class Pokemon {
   };
 
   fetchCry = () => {
-    return `../cries/${this.pokemon.number}.ogg`;
+    return `../sound/cries/${this.pokemon.number}.ogg`;
   };
 }

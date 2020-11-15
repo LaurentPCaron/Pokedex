@@ -1,3 +1,10 @@
+const SFXSelect = new Audio('../sound/sfx/SFX_PRESS_AB.wav');
+const SFXBack = new Audio('../sound/sfx/SFX_BACK.wav');
+const SFXPrint = new Audio('../sound/sfx/SFX_Printer.mp3');
+
+let cursorPostion = 0;
+let page = 'P.1';
+
 const getPkmnId = () => {
   let pkmnIdParam = parseInt(
     new URLSearchParams(window.location.search).get('id')
@@ -8,6 +15,62 @@ const getPkmnId = () => {
   }
 
   return pkmnIdParam;
+};
+
+onCursorMove = value => {
+  document.querySelectorAll('.control i')[cursorPostion].style.visibility =
+    'hidden';
+  cursorPostion += value;
+  if (cursorPostion < 0) cursorPostion = 3;
+  if (cursorPostion > 3) cursorPostion = 0;
+  document.querySelectorAll('.control i')[cursorPostion].style.visibility =
+    'visible';
+};
+
+onSelect = ({ description, cryURL }) => {
+  switch (cursorPostion) {
+    case 0:
+      onChangePage(description);
+      break;
+    case 1:
+      onPlayCry(cryURL);
+      break;
+    case 2:
+      onPrint();
+      break;
+    case 3:
+      onBack();
+      break;
+    default:
+      break;
+  }
+};
+
+onChangePage = description => {
+  SFXSelect.play();
+  let descriptionHTML;
+  if (page === 'P.1') {
+    page = 'P.2';
+    descriptionHTML = description[2];
+  } else {
+    page = 'P.1';
+    descriptionHTML = description[1];
+  }
+  document.querySelector('.top_left__page p').innerText = page;
+  document.querySelector('.description').innerHTML = descriptionHTML;
+};
+
+onPlayCry = cryURL => {
+  new Audio(cryURL).play();
+};
+
+onPrint = () => {
+  SFXPrint.play();
+  window.print();
+};
+
+onBack = () => {
+  SFXBack.play();
 };
 
 const pokemonTemplate = ({
@@ -43,10 +106,10 @@ const pokemonTemplate = ({
         </div>
         <div class="description" data-cy="description">${description[1]}</div>
       <div class="bottom">
-        <div class="column" data-cy="btn_page">>Page</div>
-        <div class="column" data-cy="btn_cry">Cry</div>
-        <div class="column" data-cy="btn_print">Print</div>
-        <div class="column" data-cy="btn_back">Back</div>
+        <div class="control" data-cy="btn_page"><i class='cursor'>></i>Page</div>
+        <div class="control" data-cy="btn_cry"><i class='cursor'>></i>Cry</div>
+        <div class="control" data-cy="btn_print"><i class='cursor'>></i>Print</div>
+        <div class="control" data-cy="btn_back"><i class='cursor'>></i>Back</div>
       </div>
     </div>
     `;
@@ -57,10 +120,31 @@ const _pokemon = new Pokemon(getPkmnId());
 if (document.querySelector('#pokedex')) {
   _pokemon.getPokemonInfo().then(res => {
     document.querySelector('#pokedex').innerHTML = pokemonTemplate(res);
-    document.addEventListener('keypress', e => {
-      if (e.key === 'Enter') {
-        new Audio(res.cry).play();
+    //onPlayCry(res.cryURL);
+    document.addEventListener('keydown', e => {
+      switch (e.key) {
+        case 'Enter':
+        case 'a':
+          onSelect(res);
+          break;
+        case 'ArrowLeft':
+          onCursorMove(-1);
+          break;
+        case 'ArrowRight':
+          onCursorMove(1);
+          break;
+        case 'Escape':
+        case 'b':
+          onBack();
+          break;
+        default:
+          break;
       }
     });
   });
 }
+
+window.addEventListener('afterprint', () => {
+  SFXPrint.pause();
+  SFXPrint.currentTime = 0;
+});

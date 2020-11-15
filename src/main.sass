@@ -74,5 +74,10 @@ $content-color: black
     background: $content-color
     grid-template-areas: "page cry print back"
     justify-items: center
-    .column
+    .control
         line-height: 0.8
+        i
+            font-style: normal
+            visibility: hidden
+    .control:first-of-type  i
+        visibility: visible
