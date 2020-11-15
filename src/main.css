@@ -27,6 +27,7 @@
 
 .top_left__image {
   background-size: 100%;
+  background-color: white;
   width: 220px;
   height: 220px; }
 
@@ -50,12 +51,15 @@
   padding-top: 40px;
   padding-left: 35px;
   display: grid;
+  font-size: 1.5rem;
   grid-template-rows: repeat(1fr); }
 
 .description {
   padding-left: 35px;
   height: 158px;
-  line-height: 3rem; }
+  line-height: 2.5rem;
+  font-size: 1.7rem;
+  word-spacing: 1.3rem; }
 
 .bottom {
   height: 28px;

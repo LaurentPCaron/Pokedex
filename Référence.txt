@@ -8,3 +8,8 @@ https://pokeapi.co/
 
 	Sprite
 	https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/25.png
+
+	SON
+	https://pokemoncries.com/cries-old/2.mp3
+		error
+		http://soundbible.com/mp3/CD%20Skipping-SoundBible.com-816257683.mp3
