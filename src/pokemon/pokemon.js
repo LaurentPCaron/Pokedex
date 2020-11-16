@@ -29,7 +29,6 @@ class Pokemon {
       pokemonNumber <= 251
     ) {
       this.pokemon.number = pokemonNumber;
-      7.00000632;
     }
   }
 

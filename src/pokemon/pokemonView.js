@@ -104,14 +104,25 @@ const pokemonTemplate = ({
   description,
   imageURL,
 }) => {
-  let stingNumber = `${number}`;
+  let stringNumber = `${number}`;
+  while (stringNumber.length < 3) {
+    stringNumber = `0${stringNumber}`;
+  }
   return `
-    <div id="container">
+  <div class="pokedex__container">
+    <div class="title">Pokedex Pokémon Crytal</div>
+    <div id="pokemon">
       <div id="main">
         <div class="top">
           <div class="top_left">
-            <div class="top_left__image" data-cy="img_pokemon" style="background-image: url(${imageURL});"></div>
-            <div class="top_left__number" data-cy="number">No.${stingNumber}</div>
+            <div
+              class="top_left__image"
+              data-cy="img_pokemon"
+              style="background-image: url(${imageURL})"
+            ></div>
+            <div class="top_left__number" data-cy="number">
+              No.${stringNumber}
+            </div>
             <div class="top_left__page" data-cy="page_number"><p>P.1</p></div>
           </div>
           <div class="top_right" id="info">
@@ -123,13 +134,28 @@ const pokemonTemplate = ({
           </div>
         </div>
         <div class="description" data-cy="description">${description[1]}</div>
+      </div>
       <div class="bottom">
-        <div class="control" data-cy="btn_page"><i class='cursor'>></i>Page</div>
-        <div class="control" data-cy="btn_cry"><i class='cursor'>></i>Cry</div>
-        <div class="control" data-cy="btn_print"><i class='cursor'>></i>Print</div>
-        <div class="control" data-cy="btn_back"><i class='cursor'>></i>Back</div>
+        <div class="control" data-cy="btn_page">
+          <i class="cursor">></i>Page
+        </div>
+        <div class="control" data-cy="btn_cry">
+          <i class="cursor">></i>Cry
+        </div>
+        <div class="control" data-cy="btn_print">
+          <i class="cursor">></i>Print
+        </div>
+        <div class="control" data-cy="btn_back">
+          <i class="cursor">></i>Back
+        </div>
       </div>
     </div>
+    <div class="tutorial">
+      <div>◄ ►</div><div>Move cursor</div>
+      <div>▲ ▼</div><div>Change Pokémon</div>
+      <div>A/ENTER</div><div>Select</div>
+    </div>
+  </div>
     `;
 };
 if (!window.location.search) {
