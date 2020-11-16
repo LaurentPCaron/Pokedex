@@ -4,6 +4,7 @@ const SFXPrint = new Audio('../sound/sfx/SFX_Printer.mp3');
 
 let cursorPostion = 0;
 let page = 'P.1';
+let _pokemon;
 
 const getPkmnId = () => {
   let pkmnIdParam = parseInt(
@@ -15,6 +16,14 @@ const getPkmnId = () => {
   }
 
   return pkmnIdParam;
+};
+
+onRenderPokemon = pokemon => {
+  pokemon.getPokemonInfo().then(res => {
+    document.querySelector('#pokedex').innerHTML = pokemonTemplate(res);
+    onPlayCry(res.cryURL);
+    _pokemon = res;
+  });
 };
 
 onCursorMove = value => {
@@ -73,6 +82,18 @@ onBack = () => {
   SFXBack.play();
 };
 
+onChangePokemon = value => {
+  let pkmnId = getPkmnId() + value;
+
+  if (pkmnId < 1) {
+    pkmnId = 251;
+  } else if (pkmnId > 251) {
+    pkmnId = 1;
+  }
+  window.location.search = `id=${pkmnId}`;
+  onRenderPokemon(new Pokemon(pkmnId));
+};
+
 const pokemonTemplate = ({
   number,
   name,
@@ -84,9 +105,6 @@ const pokemonTemplate = ({
   imageURL,
 }) => {
   let stingNumber = `${number}`;
-  while (stingNumber.length < 3) {
-    stingNumber = `0${stingNumber}`;
-  }
   return `
     <div id="container">
       <div id="main">
@@ -114,35 +132,37 @@ const pokemonTemplate = ({
     </div>
     `;
 };
-
-const _pokemon = new Pokemon(getPkmnId());
-
-if (document.querySelector('#pokedex')) {
-  _pokemon.getPokemonInfo().then(res => {
-    document.querySelector('#pokedex').innerHTML = pokemonTemplate(res);
-    //onPlayCry(res.cryURL);
-    document.addEventListener('keydown', e => {
-      switch (e.key) {
-        case 'Enter':
-        case 'a':
-          onSelect(res);
-          break;
-        case 'ArrowLeft':
-          onCursorMove(-1);
-          break;
-        case 'ArrowRight':
-          onCursorMove(1);
-          break;
-        case 'Escape':
-        case 'b':
-          onBack();
-          break;
-        default:
-          break;
-      }
-    });
-  });
+if (!window.location.search) {
+  window.location.search = `id=1`;
 }
+onRenderPokemon(new Pokemon(getPkmnId()));
+
+document.addEventListener('keydown', e => {
+  switch (e.key) {
+    case 'Enter':
+    case 'a':
+      onSelect(_pokemon);
+      break;
+    case 'ArrowLeft':
+      onCursorMove(-1);
+      break;
+    case 'ArrowRight':
+      onCursorMove(1);
+      break;
+    case 'ArrowUp':
+      onChangePokemon(-1);
+      break;
+    case 'ArrowDown':
+      onChangePokemon(1);
+      break;
+    case 'Escape':
+    case 'b':
+      onBack();
+      break;
+    default:
+      break;
+  }
+});
 
 window.addEventListener('afterprint', () => {
   SFXPrint.pause();
