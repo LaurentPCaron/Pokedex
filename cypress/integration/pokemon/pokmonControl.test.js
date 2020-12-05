@@ -57,6 +57,7 @@ context('Controling the cursor', () => {
 
   it('should be on "Page" if the right key is pressed 4 time', () => {
     for (let i = 0; i < 4; i++) {
+      n;
       cy.get('body').trigger('keydown', { key: 'ArrowRight' });
     }
     cy.get('[data-cy=btn_page] i').should('be.visible');

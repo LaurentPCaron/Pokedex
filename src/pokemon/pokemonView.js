@@ -1,6 +1,9 @@
 const SFXSelect = new Audio('../sound/sfx/SFX_PRESS_AB.wav');
+SFXSelect.volume = 0.1;
 const SFXBack = new Audio('../sound/sfx/SFX_BACK.wav');
+SFXBack.volume = 0.1;
 const SFXPrint = new Audio('../sound/sfx/SFX_Printer.mp3');
+SFXPrint.volume = 0.3;
 
 let cursorPostion = 0;
 let page = 'P.1';
@@ -23,6 +26,7 @@ onRenderPokemon = pokemon => {
     document.querySelector('#pokedex').innerHTML = pokemonTemplate(res);
     onPlayCry(res.cryURL);
     _pokemon = res;
+    addBtnListeners();
   });
 };
 
@@ -70,7 +74,9 @@ onChangePage = description => {
 };
 
 onPlayCry = cryURL => {
-  new Audio(cryURL).play();
+  const cry = new Audio(cryURL);
+  cry.volume = 0.1;
+  cry.play();
 };
 
 onPrint = () => {
@@ -110,7 +116,7 @@ const pokemonTemplate = ({
   }
   return `
   <div class="pokedex__container">
-    <div class="title">Pokedex Pokémon Crytal</div>
+    <div class="title">Pokedex Pokémon Crystal</div>
     <div id="pokemon">
       <div id="main">
         <div class="top">
@@ -136,24 +142,29 @@ const pokemonTemplate = ({
         <div class="description" data-cy="description">${description[1]}</div>
       </div>
       <div class="bottom">
-        <div class="control" data-cy="btn_page">
+        <div class="control btn_page"  data-cy="btn_page">
           <i class="cursor">></i>Page
         </div>
-        <div class="control" data-cy="btn_cry">
+        <div class="control btn_cry" data-cy="btn_cry">
           <i class="cursor">></i>Cry
         </div>
-        <div class="control" data-cy="btn_print">
+        <div class="control btn_print" data-cy="btn_print">
           <i class="cursor">></i>Print
         </div>
-        <div class="control" data-cy="btn_back">
+        <div class="control btn_back" data-cy="btn_back">
           <i class="cursor">></i>Back
         </div>
       </div>
     </div>
-    <div class="tutorial">
+    <div class="tutorial" data-cy="tutorial">
       <div>◄ ►</div><div>Move cursor</div>
       <div>▲ ▼</div><div>Change Pokémon</div>
       <div>A/ENTER</div><div>Select</div>
+    </div>
+    <div class="mobile_control" data-cy="mobile_control"> 
+      <h2 id="mobile_control__title">Change Pokémon</h2>
+      <img id="button_left" data-cy="btn_left" src="../img/arrow.png" alt="left arrow button">
+      <img id="button_right" data-cy="btn_right" src="../img/arrow.png" alt="left arrow button">
     </div>
   </div>
     `;
@@ -162,7 +173,9 @@ if (!window.location.search) {
   window.location.search = `id=1`;
 }
 onRenderPokemon(new Pokemon(getPkmnId()));
+//CONTROLS
 
+//KEYBOARD
 document.addEventListener('keydown', e => {
   switch (e.key) {
     case 'Enter':
@@ -190,6 +203,27 @@ document.addEventListener('keydown', e => {
   }
 });
 
+//MOBILE
+addBtnListeners = () => {
+  document
+    .querySelector('#button_left')
+    .addEventListener('touchstart', () => onChangePokemon(-1));
+  document
+    .querySelector('#button_right')
+    .addEventListener('touchstart', () => onChangePokemon(1));
+  document
+    .querySelector('.btn_page')
+    .addEventListener('touchstart', () => onChangePage(_pokemon.description));
+  document
+    .querySelector('.btn_cry')
+    .addEventListener('touchstart', () => onPlayCry(_pokemon.cryURL));
+  document
+    .querySelector('.btn_print')
+    .addEventListener('touchstart', () => onPrint());
+  document
+    .querySelector('.btn_back')
+    .addEventListener('touchstart', () => onBack());
+};
 window.addEventListener('afterprint', () => {
   SFXPrint.pause();
   SFXPrint.currentTime = 0;

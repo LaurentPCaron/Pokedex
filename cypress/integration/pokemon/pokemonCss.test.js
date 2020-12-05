@@ -54,4 +54,28 @@ context('On the pokemon info page', () => {
       cy.get('[data-cy=btn_back]').should('exist');
     });
   });
+
+  context('In desktop view', () => {
+    it('should show the control tutorial', () => {
+      cy.get('[data-cy=tutorial]').should('be.visible');
+    });
+    it('should not show the mobile control', () => {
+      cy.get('[data-cy=mobile_control]').should('not.be.visible');
+    });
+  });
+
+  context('In mobile mode', () => {
+    beforeEach(() => {
+      cy.viewport('ipad-2');
+    });
+    it('should not show the control tutorial', () => {
+      cy.get('[data-cy=tutorial]').should('not.be.visible');
+    });
+    it('should show the mobile control', () => {
+      cy.get('[data-cy=mobile_control]').should('be.visible');
+    });
+    it('should not show the cursor', () => {
+      cy.get('.cursor').should('not.be.visible');
+    });
+  });
 });
