@@ -1,0 +1,72 @@
+.pokedex__main {
+  height: 80%;
+  display: grid;
+  grid-template-columns: 40% 55% 3%;
+  grid-template-rows: 50% 50%;
+  grid-template-areas: "image list scroll" "statue list scroll";
+  column-gap: 0.2rem;
+}
+.pokedex__main .image_container {
+  grid-area: image;
+  padding: 0.2rem;
+  height: 100%;
+}
+.pokedex__main .image_container .image {
+  height: 100%;
+  padding: 0;
+  position: relative;
+}
+.pokedex__main .image_container .image img {
+  height: 100%;
+  width: 100%;
+  filter: greyscale(1);
+  -webkit-filter: grayscale(100%);
+}
+.pokedex__main .image_container .image__filter {
+  position: absolute;
+  top: 0px;
+  background-color: #54B800;
+  opacity: 0.6;
+  height: 100%;
+  width: 100%;
+}
+.pokedex__main .statue {
+  margin-top: 2.2rem;
+  grid-area: statue;
+}
+.pokedex__main .statue ul {
+  font-size: 3.8vw;
+  list-style-type: none;
+  padding: 0;
+  margin-bottom: 0;
+}
+.pokedex__main .statue ul li:nth-child(even) {
+  text-align: right;
+}
+.pokedex__main .list {
+  grid-area: list;
+  font-size: 3.8vw;
+}
+.pokedex__main .list ul {
+  height: 100%;
+  display: grid;
+  padding-left: 0.3rem;
+  list-style: none;
+}
+.pokedex__main .list ul li::before {
+  content: "";
+  display: inline-block;
+  height: 3.8vw;
+  width: 3.8vw;
+  background-size: 100%;
+  background-image: url("../img/pokeball_node.png");
+}
+.pokedex__main .scroll {
+  grid-area: scroll;
+}
+
+.hide {
+  display: none;
+}
+
+/*# sourceMappingURL=pokedex.css.map */

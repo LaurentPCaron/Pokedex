@@ -123,6 +123,6 @@ class Pokemon {
   };
 
   fetchCry = () => {
-    return `../sound/cries/${this.pokemon.number}.ogg`;
+    return `./sound/cries/${this.pokemon.number}.ogg`;
   };
 }

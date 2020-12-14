@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script src="./API/pokemonAPI.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="./img/favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="./main.css" />
+    <link rel="stylesheet" href="./pokemon/pokemon.css" />
+    <link rel="stylesheet" href="./pokedex/pokedex.css" />
+    <title>Pokedex</title>
+  </head>
+  <body>
+    <div
+      id="pokedex"
+      class="hide"
+      style="margin: 0 auto; display: flex; justify-content: center"
+    ></div>
+
+    <div class="pokedex__container test hide">
+      <div class="title">Pokedex Pokémon Crystal</div>
+      <div class="pokedex__frame">
+        <div class="pokedex__main">
+          <div class="section image_container">
+            <div class="image">
+              <img
+                data-cy="image"
+                src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/versions/generation-ii/crystal/34.png"
+              />
+              <div class="image__filter"></div>
+            </div>
+          </div>
+          <div class="statue section">
+            <ul>
+              <li>SEEN</li>
+              <li>251</li>
+              <li>OWN</li>
+              <li>251</li>
+            </ul>
+          </div>
+
+          <div class="list section">
+            <ul>
+              <li>FORRETRESSS</li>
+              <li>Pokemon</li>
+              <li>Pokemon</li>
+              <li>Pokemon</li>
+              <li>Pokemon</li>
+              <li>Pokemon</li>
+              <li>Pokemon</li>
+            </ul>
+          </div>
+          <div class="scroll section"></div>
+        </div>
+        <div class="pokedex__bottom">
+          <div class="search"></div>
+          <div class="credit"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script src="./pokemon/pokemon.js"></script>
+  <script src="./pokemon/pokemonView.js"></script>
+  <script src="./pokedex/pokedexView.js"></script>
+  <script src="./main.js"></script>
+</html>
