@@ -1,3 +1,11 @@
+@font-face {
+  font-family: pixel;
+  src: url("./font/pixel.ttf");
+}
+@font-face {
+  font-family: pokemon;
+  src: url("./font/Pokemon Solid.ttf");
+}
 .pokedex__main {
   height: 80%;
   display: grid;
@@ -40,14 +48,53 @@
   padding: 0;
   margin-bottom: 0;
 }
+@media screen and (min-width: 551px) {
+  .pokedex__main .statue ul {
+    font-size: 20.9px;
+  }
+}
 .pokedex__main .statue ul li:nth-child(even) {
   text-align: right;
 }
 .pokedex__main .list {
+  position: relative;
   grid-area: list;
-  font-size: 3.8vw;
+  font-size: 3.4vw;
+}
+@media screen and (min-width: 551px) {
+  .pokedex__main .list {
+    font-size: 18.7px;
+  }
+}
+.pokedex__main .list .arrow {
+  position: absolute;
+  height: 4%;
+  width: 15%;
+  background-color: white;
+  left: 42.5%;
+}
+.pokedex__main .list .arrow img {
+  position: absolute;
+  height: 200%;
+  width: 40%;
+  top: -50%;
+  left: 30%;
+  filter: brightness(0);
+}
+.pokedex__main .list #list__up {
+  top: -4%;
+}
+.pokedex__main .list #list__up img {
+  transform: rotate(-90deg);
+}
+.pokedex__main .list #list__down {
+  top: 99.5%;
+}
+.pokedex__main .list #list__down img {
+  transform: rotate(90deg);
 }
 .pokedex__main .list ul {
+  position: relative;
   height: 100%;
   display: grid;
   padding-left: 0.3rem;
@@ -58,15 +105,65 @@
   display: inline-block;
   height: 3.8vw;
   width: 3.8vw;
+  margin-right: 5%;
   background-size: 100%;
   background-image: url("../img/pokeball_node.png");
+}
+@media screen and (min-width: 551px) {
+  .pokedex__main .list ul li::before {
+    height: 20.89px;
+    width: 20.89px;
+  }
 }
 .pokedex__main .scroll {
   grid-area: scroll;
 }
+.pokedex__main .scroll #scroll__pointer {
+  border-left: none;
+  border-right: none;
+  margin: 0 auto;
+  width: 100%;
+  height: 2.5%;
+  margin-top: 0%;
+  background-color: #DA4D32;
+}
 
 .hide {
   display: none;
+}
+
+.pokedex__bottom {
+  height: 20%;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  grid-template-areas: "option search";
+}
+.pokedex__bottom .pokedex__btn {
+  padding: 0 15px;
+  font-size: 2.8vw;
+  border-radius: 25px;
+  background-color: black;
+}
+@media screen and (min-width: 551px) {
+  .pokedex__bottom .pokedex__btn {
+    font-size: 15.4px;
+  }
+}
+.pokedex__bottom img {
+  height: 3vw;
+}
+@media screen and (min-width: 551px) {
+  .pokedex__bottom img {
+    height: 16.5px;
+  }
+}
+
+#cursor {
+  position: absolute;
+  height: 10%;
+  width: 100.5%;
+  top: 84.5%;
 }
 
 /*# sourceMappingURL=pokedex.css.map */
