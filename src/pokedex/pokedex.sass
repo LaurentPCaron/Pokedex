@@ -1,4 +1,5 @@
 @import "../variables.sass"
+$v-list:("font-size":3vw, "max-font-size":16px)
 .pokedex__main
     height: 80%
     display: grid
@@ -44,9 +45,10 @@
     .list
         position: relative
         grid-area: list
-        font-size: 3.4vw
+        display: grid
+        font-size: map-get($v-list,"font-size")
         @media screen and ( min-width: 551px )
-            font-size: 18.7px
+            font-size: map-get($v-list,"max-font-size" )
         .arrow
             position: absolute
             height: 4%
@@ -74,14 +76,15 @@
             position: relative
             height: 100%
             display: grid
-            padding-left: 0.3rem
+            margin: 0
+            padding-left: 1rem
             list-style: none
 
             li::before
                 content: ''
                 display: inline-block
-                height: 3.8vw
-                width: 3.8vw
+                height: map-get($v-list,"font-size")
+                width: map-get($v-list,"font-size")
                 margin-right: 5%
                 background-size: 100%
                 background-image: url("../img/pokeball_node.png")
@@ -126,6 +129,6 @@
 //Cursor
 #cursor
     position: absolute
-    height: 10%
+    height: 15%
     width: 100.5%
-    top: 84.5%
+    top: var(--list-cursor, 0%)//85% //min 0% max 85%

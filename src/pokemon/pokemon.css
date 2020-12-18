@@ -1,11 +1,3 @@
-@font-face {
-  font-family: pixel;
-  src: url("./font/pixel.ttf");
-}
-@font-face {
-  font-family: pokemon;
-  src: url("./font/Pokemon Solid.ttf");
-}
 .pokemon__main {
   height: 90%;
 }
