@@ -11,7 +11,7 @@ const pokemonView = () => {
   let _pokemon;
 
   const getPkmnId = () => {
-    const pkmnIdParam = parseInt(window.location.hash.replace('#', ''));
+    const pkmnIdParam = parseInt(window.location.hash.replace('#p', ''));
 
     if (!pkmnIdParam || pkmnIdParam < 1 || pkmnIdParam > 251) {
       return 0;
@@ -85,6 +85,11 @@ const pokemonView = () => {
 
   onBack = () => {
     SFXBack.play();
+    setTimeout(() => {
+      pokedexView();
+      document.location.href = `${document.location.pathname}#l${getPkmnId()}`;
+      location.reload();
+    }, 300);
   };
 
   onChangePokemon = value => {
@@ -95,7 +100,7 @@ const pokemonView = () => {
     } else if (pkmnId > 251) {
       pkmnId = 1;
     }
-    window.location.hash = `${pkmnId}`;
+    window.location.hash = `p${pkmnId}`;
     onRenderPokemon(new Pokemon(pkmnId));
   };
 
@@ -169,7 +174,7 @@ const pokemonView = () => {
     `;
   };
   if (!window.location.hash) {
-    window.location.hash = `1`;
+    window.location.hash = `p1`;
   }
   onRenderPokemon(new Pokemon(getPkmnId()));
   //CONTROLS

@@ -1,16 +1,22 @@
-const pokedexView = index => {
+const pokedexView = () => {
+  const SFXSelect = new Audio('./sound/sfx/SFX_PRESS_AB.wav');
+  SFXSelect.volume = 0.1;
+
   const MAX_SUB_LIST_INDEX = 6;
   let MAX_POKEMON_INDEX = 20;
 
   let subListIndex = 0;
-  let pokemonIndex = index ? index : 0;
+  let pokemonIndex = 0;
   let pokemons;
 
-  const goToPokemonPage = () => {
-    document.location.href = `${document.location.pathname}#${
-      pokemonIndex + 1
+  const goToPokemonPage = index => {
+    document.location.href = `${document.location.pathname}#p${
+      index ? index : pokemonIndex + 1
     }`;
-    location.reload();
+    SFXSelect.play();
+    setTimeout(() => {
+      location.reload();
+    }, 200);
   };
 
   const changeListCursor = value => {
@@ -72,8 +78,10 @@ const pokedexView = index => {
     const listDownArrow = document.querySelector('#list__down');
     if (pokemonIndex === 0) {
       listUpArrow.classList.add('hide');
+      listDownArrow.classList.remove('hide');
     } else if (pokemonIndex === MAX_POKEMON_INDEX) {
       listDownArrow.classList.add('hide');
+      listUpArrow.classList.remove('hide');
     } else if (listUpArrow.classList.contains('hide')) {
       listUpArrow.classList.remove('hide');
     } else if (listDownArrow.classList.contains('hide')) {
@@ -115,8 +123,16 @@ const pokedexView = index => {
       pokemon.innerHTML = `${pokemonNumber}<br />${pokemons[
         i
       ].name.toUpperCase()}`;
+      pokemon.addEventListener('touchstart', () => goToPokemonPage(i + 1));
       sublist.append(pokemon);
     }
+  };
+
+  const changeScroling = () => {
+    const pointerLocalisation = (97 / MAX_POKEMON_INDEX) * pokemonIndex;
+    document
+      .querySelector('#scroll__pointer')
+      .style.setProperty('--scroler-pointer', `${pointerLocalisation}%`);
   };
 
   const pokedexTemplate = () => {
@@ -147,9 +163,10 @@ const pokedexView = index => {
           <div class="section arrow hide" id="list__up" data-cy="list-up-arrow">
             <img src="./img/arr.png" alt="up arrow" />
           </div>
-          <img id="cursor" src="img/cursor.png" alt="cursor" data-cy="list_cursor"/>
+          
           <ul id="pokemon_sublist">
           </ul>
+          <img id="cursor" src="img/cursor.png" alt="cursor" data-cy="list_cursor"/>
           <div class="section arrow" id="list__down" data-cy="list-down-arrow">
             <img src="./img/arr.png" alt="up arrow" />
           </div>
@@ -179,42 +196,98 @@ const pokedexView = index => {
   </div>`;
   };
 
+  //Control
+  const onPressUp = () => {
+    changePokemonIndex(-1);
+    changeListCursor(-1);
+  };
+
+  const onPressDown = () => {
+    changePokemonIndex(1);
+    changeListCursor(1);
+  };
+
+  const onPressRight = () => {
+    changePokemonIndex(7);
+    if (pokemonIndex === MAX_POKEMON_INDEX) {
+      changeListCursor(MAX_SUB_LIST_INDEX);
+    }
+  };
+
+  const onPressLeft = () => {
+    changePokemonIndex(-7);
+    if (pokemonIndex === 0) {
+      changeListCursor(-MAX_SUB_LIST_INDEX);
+    }
+  };
+  const onPressA = () => {
+    goToPokemonPage();
+  };
+  const onPress = () => {
+    changeImage();
+    toggleListArrow();
+    changeScroling();
+  };
+  const mapControl = () => {
+    //Map keyBoard control
+    document.addEventListener('keydown', e => {
+      switch (e.key) {
+        case 'ArrowUp':
+          onPressUp();
+          break;
+        case 'ArrowDown':
+          onPressDown();
+          break;
+        case 'ArrowRight':
+          onPressRight();
+          break;
+        case 'ArrowLeft':
+          onPressLeft();
+          break;
+        case 'Enter':
+          onPressA();
+        default:
+          return;
+      }
+      onPress();
+    });
+
+    //Map mobile control
+    document.querySelector('#cursor').addEventListener('touchstart', () => {
+      onPressA();
+      onPress();
+    });
+
+    document.querySelector('#list__up').addEventListener('touchstart', () => {
+      onPressLeft();
+      onPress();
+    });
+
+    document.querySelector('#list__down').addEventListener('touchstart', () => {
+      onPressRight();
+      onPress();
+    });
+  };
+
+  //Initialisation view
   new pokedex().fetchPokemonList().then(res => {
     pokemons = res;
     MAX_POKEMON_INDEX = pokemons.length - 1;
-    document.querySelector('#pokedex').innerHTML = pokedexTemplate();
-    changePokemonSubList();
-  });
 
-  document.addEventListener('keydown', e => {
-    switch (e.key) {
-      case 'ArrowUp':
-        changePokemonIndex(-1);
-        changeListCursor(-1);
-        toggleListArrow();
-        break;
-      case 'ArrowDown':
-        changePokemonIndex(1);
-        changeListCursor(1);
-        break;
-      case 'ArrowRight':
-        changePokemonIndex(7);
-        if (pokemonIndex === MAX_POKEMON_INDEX) {
-          changeListCursor(MAX_SUB_LIST_INDEX);
-        }
-        break;
-      case 'ArrowLeft':
-        changePokemonIndex(-7);
-        if (pokemonIndex === 0) {
-          changeListCursor(-MAX_SUB_LIST_INDEX);
-        }
-        break;
-      case 'Enter':
-        goToPokemonPage();
-      default:
-        return;
+    if (window.location.hash) {
+      pokemonIndex = parseInt(window.location.hash.replace('#l', '')) - 1;
     }
-    changeImage();
+
+    document.querySelector('#pokedex').innerHTML = pokedexTemplate();
+
+    if (pokemonIndex > MAX_POKEMON_INDEX - 6) {
+      subListIndex = pokemonIndex - MAX_POKEMON_INDEX + 6;
+      changeListCursor(0);
+    }
+
+    changePokemonSubList();
+    changeScroling();
     toggleListArrow();
+    mapControl();
   });
 };

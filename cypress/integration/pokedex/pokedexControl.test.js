@@ -137,14 +137,52 @@ context('The scroll bar pointer', () => {
 
   it('should not go higher than the top limit of the scroll bar', () => {
     cy.get('body').trigger('keydown', { key: 'ArrowUp' });
-    cy.get('[data-cy=scroll__pointer]')
-      .should('have.css', 'margin-top')
-      .and('match', /^0px$/);
+    cy.get('[data-cy=scroll__pointer]').should(
+      'have.attr',
+      'style',
+      '--scroler-pointer:0%;'
+    );
   });
-  it('should be at the top when the first pokemon is selected');
-  it('should be at 50% when the middle pokemon is selected');
-  it('should be a the en end when the last pokemon is selected');
-  it('should not go lower than the top limit of the scroll bar');
+  it('should be at the top when the first pokemon is selected', () => {
+    cy.get('body').trigger('keydown', { key: 'ArrowDown' });
+    cy.get('body').trigger('keydown', { key: 'ArrowUp' });
+    cy.get('[data-cy=scroll__pointer]').should(
+      'have.attr',
+      'style',
+      '--scroler-pointer:0%;'
+    );
+  });
+  it('should be at 50% (#127) when the middle pokemon is selected', () => {
+    for (let i = 0; i < 18; i++) {
+      cy.get('body').trigger('keydown', { key: 'ArrowRight' });
+    }
+    cy.get('[data-cy=scroll__pointer]').should(
+      'have.attr',
+      'style',
+      '--scroler-pointer:48.888%;'
+    );
+  });
+  it('should be a the end when the last pokemon is selected', () => {
+    for (let i = 0; i < 36; i++) {
+      cy.get('body').trigger('keydown', { key: 'ArrowRight' });
+    }
+    cy.get('[data-cy=scroll__pointer]').should(
+      'have.attr',
+      'style',
+      '--scroler-pointer:97%;'
+    );
+  });
+  it('should not go lower than the top limit of the scroll bar', () => {
+    for (let i = 0; i < 36; i++) {
+      cy.get('body').trigger('keydown', { key: 'ArrowRight' });
+    }
+    cy.get('body').trigger('keydown', { key: 'ArrowDown' });
+    cy.get('[data-cy=scroll__pointer]').should(
+      'have.attr',
+      'style',
+      '--scroler-pointer:97%;'
+    );
+  });
 });
 
 context('By pressing the Enter key', () => {
@@ -155,6 +193,28 @@ context('By pressing the Enter key', () => {
   it('should switch to the pokemon page of the pokemon selected', () => {
     cy.get('body').trigger('keydown', { key: 'ArrowDown' });
     cy.get('body').trigger('keydown', { key: 'Enter' });
-    cy.url().should('include', '#2');
+    cy.url().should('include', '#p2');
+  });
+  it('should go back on the good pokemon wehn you go back', () => {
+    cy.get('body').trigger('keydown', { key: 'ArrowDown' });
+    cy.get('body').trigger('keydown', { key: 'Enter' });
+    cy.get('body').trigger('keydown', { key: 'ArrowLeft' });
+    cy.get('body').trigger('keydown', { key: 'Enter' });
+    cy.get('[data-cy=pokemon_1]').should('not.exist');
+    cy.get('[data-cy=pokemon_2]').contains(/^002/);
+    cy.get('[data-cy=pokemon_9]').should('not.exist');
+  });
+  it('should have the cursor on the good pokemon if the pokemon index is bigger than maxIndex -5', () => {
+    for (let i = 0; i < 35; i++) {
+      cy.get('body').trigger('keydown', { key: 'ArrowRight' });
+    }
+    cy.get('body').trigger('keydown', { key: 'Enter' });
+    cy.get('body').trigger('keydown', { key: 'ArrowLeft' });
+    cy.get('body').trigger('keydown', { key: 'Enter' });
+    cy.get('[data-cy=list_cursor]')
+      .should('have.css', 'top')
+      .and('match', /^(58).*px$/);
+    cy.get('[data-cy=pokemon_244]').should('not.exist');
+    cy.get('[data-cy=pokemon_246]').contains(/^246/);
   });
 });
