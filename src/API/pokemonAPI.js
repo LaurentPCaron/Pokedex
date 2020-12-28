@@ -20,4 +20,12 @@ const pokemonAPI = {
     }
     return response.data;
   },
+  fetchPokemonNames: async () => {
+    const response = await axios.get(`${basicPath}pokemon?limit=251&offset=0`);
+    if (response.data.Error) {
+      console.log(response);
+      return [];
+    }
+    return response.data;
+  },
 };
